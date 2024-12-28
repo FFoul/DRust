@@ -1,7 +1,7 @@
 use dashmap::DashMap;
 use crate::conf::NUM_SERVERS;
 
-pub const READ_RATIO: i32 = 90;
+pub const READ_RATIO: i32 = 50;
 pub const TARGET_BUCKET_NUM : usize = 16777216;
 pub const TAG_BITS: usize = 11;
 pub const BKT_BITS: usize = 24;

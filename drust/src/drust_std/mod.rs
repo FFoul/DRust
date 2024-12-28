@@ -80,6 +80,7 @@ pub async fn drust_main(
     dconnect!(app_addrs, DCLIENTS, DRustWorldClient);
     set_ready(3);
     rsync(&safepoint_addrs, 3).await;
+    println!("1");
     if server_idx == 0 {
         if app == "gemm" {
             app::gemm::run().await;

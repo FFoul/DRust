@@ -1,4 +1,4 @@
-pub const NUM_SERVERS: usize = 1;
+pub const NUM_SERVERS: usize = 2;
 pub const GLOBAL_HEAP_START: usize = 0x400000000000 as usize;
 pub const UNIT_HEAP_SIZE_GB: usize = 96;
 pub const WORKER_HEAP_SIZE: usize = NUM_SERVERS * UNIT_HEAP_SIZE_GB as usize * 1024 * 1024 * 1024; // 48 for GEMM & 16 for all others

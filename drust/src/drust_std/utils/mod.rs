@@ -44,6 +44,7 @@ pub struct ResourceManager {
 impl ResourceManager {
     pub fn new(num: usize) -> Self {
         let mut avail_resources = Vec::with_capacity(num);
+        // println!{"new, {:?}", num};
         for _ in 0..num {
             avail_resources.push(AtomicBool::new(true));
         }

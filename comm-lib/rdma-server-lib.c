@@ -31,8 +31,10 @@ int drust_start_server(size_t heap_start, size_t heap_size, size_t server_id)
 
   global_server_id = server_id;
 
-  const char *ip_str[9] = {"10.0.0.1", "10.0.0.2", "10.0.0.3", "10.0.0.4", "10.0.0.5", "10.0.0.6", "10.0.0.10", "10.0.0.11", "10.0.0.1"};
-  const char *port_str[8] = {"9400", "9401", "9402", "9403", "9404", "9405", "9406", "9407"};
+  // const char *ip_str[9] = {"10.0.0.1", "10.0.0.2", "10.0.0.3", "10.0.0.4", "10.0.0.5", "10.0.0.6", "10.0.0.10", "10.0.0.11", "10.0.0.1"};
+  // const char *port_str[8] = {"9400", "9401", "9402", "9403", "9404", "9405", "9406", "9407"};
+  const char *ip_str[2] = {"192.168.100.12", "192.168.100.21"};
+  const char *port_str[2] = {"8012", "8021"};
   printf("%s, trying to bind to %s:%s.\n", __func__, ip_str[server_id], port_str[cur_id]);
 
   // init_mem_region();

@@ -32,7 +32,7 @@ pub trait DSafePoint {
 struct DSafePointServer(SocketAddr);
 
 pub static mut READY_MAP: Option<Arc<DashMap<usize, bool>>> = None;
-pub static SHUTDOWN_INDEX: usize = 20240327;
+pub static SHUTDOWN_INDEX: usize = 20241204;
 
 #[tarpc::server]
 impl DSafePoint for DSafePointServer {

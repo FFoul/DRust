@@ -30,6 +30,7 @@ pub async fn run() {
     }
 
     let start_time = Instant::now();
+    
 
     let matrix_c = par_strassen_mul(matrix_a, matrix_b, MATRIX_SIZE, 1).await;
 

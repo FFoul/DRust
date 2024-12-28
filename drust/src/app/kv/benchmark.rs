@@ -13,14 +13,16 @@ use crate::{conf::{GLOBAL_HEAP_START, NUM_SERVERS, SERVER_INDEX, WORKER_UNIT_SIZ
 
 static mut KEYS: Option<Vec<Vec<(usize, i32)>>> = None;
 
+static recordcount: i32 = 1000;
+
 pub async fn populate(map: DVecRef<'_, DMutex<GlobalEntry>>) {
     let v = ['x' as u8; 32];
-    let csv_file = format!("{}/DRust_home/dataset/dht/zipf/gam_data_0.99_100000000_{}_{}.csv", dirs::home_dir().unwrap().display(), NUM_SERVERS, unsafe{SERVER_INDEX % NUM_SERVERS});
+    let csv_file = format!("{}/DRust_home/dataset/dht/zipf/load_{}.csv", dirs::home_dir().unwrap().display(), unsafe{SERVER_INDEX % NUM_SERVERS});
     let mut rdr = csv::Reader::from_path(csv_file).unwrap();
     let mut cnt = 0;
     let popstart = tokio::time::Instant::now();
     for result in rdr.records() {
-        if cnt % 1000000 == 0 {
+        if cnt % 100 == 0 {
             println!("Populate {} keys", cnt);
         }
         let record = result.unwrap();
@@ -57,16 +59,16 @@ pub async fn benchmark(map: DVecRef<'_, DMutex<GlobalEntry>>) {
     let v = ['x' as u8; 32];
     let start = tokio::time::Instant::now();
 
-    let csv_file = format!("{}/DRust_home/dataset/dht/zipf/gam_data_0.99_100000000_{}_{}.csv", dirs::home_dir().unwrap().display(), NUM_SERVERS, unsafe{(SERVER_INDEX + 1) % NUM_SERVERS});
+    let csv_file = format!("{}/DRust_home/dataset/dht/zipf/load_{}.csv", dirs::home_dir().unwrap().display(), unsafe{(SERVER_INDEX) % NUM_SERVERS});
     let mut rdr = csv::Reader::from_path(csv_file).unwrap();
     let mut rng = StdRng::seed_from_u64(0);
-    let range = Uniform::from(0..100000000);
+    let range = Uniform::from(0..recordcount);
     
     for result in rdr.records() {
         let record = result.unwrap();
         let key: usize = record[0].parse().unwrap();
         let r = range.sample(&mut rng);
-        if r < READ_RATIO * 100000000 / 10 {
+        if r < READ_RATIO * recordcount / 100 {
             let getv = get(&map, key).await;
             if getv != v {
                 panic!("Wrong value");
@@ -114,7 +116,7 @@ pub async fn zipf_bench() {
     }
     let time = start.elapsed();
     println!("Total Elapsed Time: {:?}", time);
-    println!("Total Throughput: {:?}", 100000000 as f64 / time.as_secs_f64());   
+    println!("Total Throughput: {:?}", recordcount as f64 / time.as_secs_f64());   
     
     let file_name = format!(
         "{}/DRust_home/logs/kv_drust_{}.txt", dirs::home_dir().unwrap().display(), NUM_SERVERS
